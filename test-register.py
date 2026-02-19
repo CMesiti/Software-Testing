@@ -48,7 +48,7 @@ class RegisterTest():
         name.send_keys(user_name)
         email.send_keys(user_email)
 
-        signup_button = self.driver.find_element(By.CSS_SELECTOR, ".signup-form form button" )
+        signup_button = self.driver.find_element(By.CSS_SELECTOR, ".signup-form form button")
         signup_button.click()
 
 
