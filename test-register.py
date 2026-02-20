@@ -10,7 +10,7 @@ Test Case 1: Register User
 6. Enter name and email address
 7. Click 'Signup' button
 8. Verify that 'ENTER ACCOUNT INFORMATION' is visible
-9. Fill details: Title, Name, Email, Password, Date of birth
+9. Fill details: page_title, Name, Email, Password, Date of birth
 10. Select checkbox 'Sign up for our newsletter!'
 11. Select checkbox 'Receive special offers from our partners!'
 12. Fill details: First name, Last name, Company, Address, Address2, Country, State, City, Zipcode, Mobile Number
@@ -29,14 +29,14 @@ class RegisterTest():
     def __init__(self):
         self.driver = webdriver.Chrome()
         
-    def register(self, user_name, user_email):
+    def register(self, user_name, user_email, password):
         #navigate to home page
         self.driver.get("http://automationexercise.com")
         print("3. HomePage Checkpoint - All Green [X] ") #replace with logs, d&t.
         #click signup/login button
         nav_bar = self.driver.find_element(By.CLASS_NAME, "nav")
         #//Tagname[@AttibuteName = ‘value’]
-        login = nav_bar.find_element(By.XPATH, '//a[@href="/login"]').click()
+        nav_bar.find_element(By.XPATH, '//a[@href="/login"]').click()
         signup_form = self.driver.find_element(By.CSS_SELECTOR, ".signup-form h2")
         if signup_form and signup_form.text == "New User Signup!":
             print("5. Signup Checkpoint Valid - All Green [X] ")
@@ -51,7 +51,27 @@ class RegisterTest():
         signup_button = self.driver.find_element(By.CSS_SELECTOR, ".signup-form form button")
         signup_button.click()
 
+        #get the element containing the required page_title;
+        page_title = self.driver.find_element(By.CLASS_NAME, "title").text
+        if page_title and page_title == "ENTER ACCOUNT INFORMATION":
+             print("8. Signup Checkpoint Valid - All Green [X] ")
+        else:
+            print("8. Checkpoint Failed!")
+        
+        #Fill details: page_title, Name, Email, Password, Date of birth
+        self.driver.find_element(By.ID, 'uniform-id_gender1').click()
+        self.driver.find_element(By.ID, 'name').send_keys(user_name)
+        self.driver.find_element(By.ID, 'email').send_keys(user_email)
+        self.driver.find_element(By.ID, 'password').send_keys(password)
+        print("successfully passed until here")
+
+        
 
 
 
-register = RegisterTest().register("MyName", "MyEmail@example.com")
+if __name__ == "__main__":
+    print("Registration Test!")
+    in_name = input("Enter Name: ").strip()
+    in_email = input("Enter Email: ").strip()
+    in_pass = input("Enter Password: ").strip()
+    register = RegisterTest().register(in_name, in_email, in_pass)
