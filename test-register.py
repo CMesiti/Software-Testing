@@ -27,6 +27,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 import random
+
 class RegisterTest():
     def __init__(self):
         self.driver = webdriver.Chrome()
@@ -62,10 +63,20 @@ class RegisterTest():
         
         #Fill details: page_title, Name, Email, Password, Date of birth
         self.driver.find_element(By.ID, 'uniform-id_gender1').click()
-        self.driver.find_element(By.ID, 'name').send_keys(user_name)
-        self.driver.find_element(By.ID, 'email').send_keys(user_email)
+
+        #here the name and email are autofilled and have the hidden property making them non interactable input elements.
+        #we must verify the autofill correctly populates with information we initially provided.
+        #assert assumes the condition to be true and when false provides a assertion error message by default
+        assert self.driver.find_element(By.ID, 'name').get_attribute("value") == user_name 
+        assert self.driver.find_element(By.ID, 'email').get_attribute("value") == user_email
+
+
         self.driver.find_element(By.ID, 'password').send_keys(password)
         print("successfully passed until here")
+
+        #DOB
+        self.driver.find_element(By.ID, "")
+
 
         # 10. Select checkbox 'Sign up for our newsletter!'
         # 11. Select checkbox 'Receive special offers from our partners!'
@@ -84,9 +95,11 @@ class RegisterTest():
         selection = Select(countries)
         country = random.choice(selection.options)
         print(f"Options: {selection.options}, Choice: {country}")
-        selection.select_by_value(country)
+        selection.select_by_visible_text(country.text)
 
 
+#here is where we will create fake test data
+data = {}
         
 
 
