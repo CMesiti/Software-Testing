@@ -25,6 +25,8 @@ Test Case 1: Register User
 #After automation use pytest to encapsulate and decouple tests from front-end with a page interfaces. 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
+import random
 class RegisterTest():
     def __init__(self):
         self.driver = webdriver.Chrome()
@@ -64,6 +66,26 @@ class RegisterTest():
         self.driver.find_element(By.ID, 'email').send_keys(user_email)
         self.driver.find_element(By.ID, 'password').send_keys(password)
         print("successfully passed until here")
+
+        # 10. Select checkbox 'Sign up for our newsletter!'
+        # 11. Select checkbox 'Receive special offers from our partners!'
+        # 12. Fill details: First name, Last name, Company, Address, Address2, Country, State, City, Zipcode, Mobile Number
+        self.driver.find_element(By.ID, 'newsletter').click()
+        self.driver.find_element(By.ID, 'optin').click()
+
+        self.driver.find_element(By.ID, 'first_name').send_keys()
+        self.driver.find_element(By.ID, 'last_name').send_keys()
+        self.driver.find_element(By.ID, 'company').send_keys()
+        self.driver.find_element(By.ID, "address1").send_keys()
+        self.driver.find_element(By.ID, "address2").send_keys()
+
+        #get select list
+        countries = self.driver.find_element(By.ID, "country")
+        selection = Select(countries)
+        country = random.choice(selection.options)
+        print(f"Options: {selection.options}, Choice: {country}")
+        selection.select_by_value(country)
+
 
         
 
